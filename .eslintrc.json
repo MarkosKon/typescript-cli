@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "plugin:promise/recommended",
+    "plugin:unicorn/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    // 1. unicorn overrides
+    // Do not check arguments because it conflicts with strict TypeScript.
+    "unicorn/no-useless-undefined": ["error", { "checkArguments": false }],
+    // It's not good for readability in many cases, even with the only-single-line option.
+    // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md#options
+    "unicorn/prefer-ternary": "off",
+    "unicorn/prefer-spread": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          // camelCase js
+          "camelCase": true
+        }
+      }
+    ],
+    // It has false positives. We have TypeScript strict anyway,
+    // we can't change function parameters without complaints for TS.
+    // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1193
+    "unicorn/no-array-callback-reference": "off",
+
+    // 2. airbnb overrides.
+    "import/prefer-default-export": "off",
+
+    // 3. eslint
+    "no-console": "off"
+  }
+}

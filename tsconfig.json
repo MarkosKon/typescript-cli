@@ -1,0 +1,18 @@
+{
+  "include": ["./src/**/*", "**/*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es5",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    // match output dir to input dir. e.g. dist/index instead of dist/src/index
+    // "rootDir": "./src",
+    "strict": true,
+    "skipLibCheck": true,
+    "sourceMap": true
+    // "declaration": true
+  }
+}
