@@ -21,4 +21,4 @@ import { strict as assert, deepEqual } from "node:assert";
   console.log(`${chalk.green("✓")} ${test} passed`);
 }
 
-console.log(`${chalk.green("success:")} All tests have passed passed!`);
+console.log(`${chalk.green("success:")} All tests have passed!`);
