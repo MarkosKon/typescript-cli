@@ -3,10 +3,11 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "ES6",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Node",
     "noImplicitReturns": true,
     // match output dir to input dir. e.g. dist/index instead of dist/src/index
     // "rootDir": "./src",

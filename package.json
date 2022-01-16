@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "bin": {
     "typescript-cli": "dist/src/cli.js"
   },
@@ -36,7 +37,7 @@
     ]
   },
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
