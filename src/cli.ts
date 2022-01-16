@@ -8,14 +8,19 @@ import { spawn } from "node:child_process";
 const files = process.argv.slice(2);
 
 if (files.includes("--pwd")) {
-  const pwd = spawn("pwd");
+  try {
+    const pwd = spawn("pwd");
 
-  pwd.stdout.pipe(process.stdout);
-  pwd.stderr.pipe(process.stderr);
+    pwd.stdout.pipe(process.stdout);
+    pwd.stderr.pipe(process.stderr);
 
-  pwd.on("exit", (code) => {
-    process.exit(code || 0);
-  });
+    pwd.on("exit", (code) => {
+      process.exit(code !== null ? code : 0);
+    });
+  } catch (error) {
+    console.error(`${chalk.red.bold("error (unknown)")} ${String(error)}`);
+    process.exit(1);
+  }
 } else {
   files.forEach((file) => {
     try {
@@ -23,15 +28,18 @@ if (files.includes("--pwd")) {
       const readSteam = createReadStream(filePath, { encoding: "utf8" });
 
       readSteam.on("data", (data) => {
-        console.log(chalk.green.underline(`File contents for '${file}''`));
+        console.log(chalk.green.underline(`File contents for '${file}'`));
         console.log(data);
       });
 
       readSteam.on("error", (error) => {
-        console.error(`${chalk.red.bold("error (readStream)")} ${error}`);
+        console.error(
+          `${chalk.red.bold("error (readStream)")} ${String(error)}`
+        );
       });
     } catch (error) {
-      console.error(`${chalk.red.bold("error")} ${error}`);
+      console.error(`${chalk.red.bold("error (unknown)")} ${String(error)}`);
+      process.exit(1);
     }
   });
 }

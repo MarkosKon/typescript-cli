@@ -4,12 +4,28 @@
     "plugin:unicorn/recommended",
     "airbnb-base",
     "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
+    // 0. @typescript-eslint overrides
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      {
+        "allowString": true, // I don't want to do something with empty strings.
+        "allowNumber": false,
+        "allowNullableObject": false,
+        "allowNullableBoolean": false,
+        "allowNullableString": true, // I don't want to do something with empty strings.
+        "allowNullableNumber": false,
+        "allowAny": false,
+        "allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing": false
+      }
+    ],
     // 1. unicorn overrides
     // Do not check arguments because it conflicts with strict TypeScript.
     "unicorn/no-useless-undefined": ["error", { "checkArguments": false }],
