@@ -7,9 +7,14 @@
   "bin": {
     "typescript-cli": "dist/src/cli.js"
   },
+  "engines": {
+    "node": ">=12"
+  },
+  "files": [
+    "dist/src/**/*.js"
+  ],
   "scripts": {
     "dev": "tsc --watch",
-    "prepublish": "tsc",
     "build": "tsc",
     "test": "npm-run-all build test:run",
     "test:run": "node dist/test/test.js",
@@ -29,16 +34,13 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "bash -c tsc",
       "eslint --fix"
     ],
     "*.{md,json,yml,css}": [
       "prettier --write"
     ]
   },
-  "dependencies": {
-    "chalk": "^5.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.9.0",

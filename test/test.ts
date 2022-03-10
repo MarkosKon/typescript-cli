@@ -1,5 +1,7 @@
-import chalk from "chalk";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { strict as assert, deepEqual } from "node:assert";
+
+import { green, reset } from "../src/colors.js";
 
 {
   const test = "Number(1) equals 1.";
@@ -8,7 +10,7 @@ import { strict as assert, deepEqual } from "node:assert";
   const expected = 1;
   assert(actual === expected);
 
-  console.log(`${chalk.green("✓")} ${test} passed`);
+  console.log(`${green}✓${reset} ${test} passed`);
 }
 
 {
@@ -18,7 +20,7 @@ import { strict as assert, deepEqual } from "node:assert";
   const expected = {};
   deepEqual(actual, expected);
 
-  console.log(`${chalk.green("✓")} ${test} passed`);
+  console.log(`${green}✓${reset} ${test} passed`);
 }
 
-console.log(`${chalk.green("success:")} All tests have passed!`);
+console.log(`${green}success:${reset} All tests have passed!`);

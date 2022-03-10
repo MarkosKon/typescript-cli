@@ -44,6 +44,14 @@
         }
       }
     ],
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "allowList": {
+          "args": true // arguments is reserved.
+        }
+      }
+    ],
     // It has false positives. We have TypeScript strict anyway,
     // we can't change function parameters without complaints for TS.
     // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1193
