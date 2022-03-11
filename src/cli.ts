@@ -69,33 +69,31 @@ if (args.includes("--help") || args.includes("-h")) {
     process.exit(1);
   }
 
-  args
-    .filter((argument) => !["-V", "--verbose"].includes(argument))
-    .forEach((file) => {
-      try {
-        const filePath = resolve(file);
-        const readSteam = createReadStream(filePath, { encoding: "utf8" });
+  files.forEach((file) => {
+    try {
+      const filePath = resolve(file);
+      const readSteam = createReadStream(filePath, { encoding: "utf8" });
 
-        readSteam.on("data", (data) => {
-          console.log(
-            `${green}success${reset} (${programName}): File contents for '${file}':`
-          );
-          console.log(data);
-        });
-
-        readSteam.on("error", (error) => {
-          console.error(
-            `${red}error${reset} readStream (${programName}):  ${String(error)}`
-          );
-          process.exitCode = 1;
-        });
-      } catch (error) {
-        console.error(
-          `${red}error${reset} unknown (${programName}): ${String(error)}`
+      readSteam.on("data", (data) => {
+        console.log(
+          `${green}success${reset} (${programName}): File contents for '${file}':`
         );
-        process.exit(1);
-      }
-    });
+        console.log(data);
+      });
+
+      readSteam.on("error", (error) => {
+        console.error(
+          `${red}error${reset} readStream (${programName}):  ${String(error)}`
+        );
+        process.exitCode = 1;
+      });
+    } catch (error) {
+      console.error(
+        `${red}error${reset} unknown (${programName}): ${String(error)}`
+      );
+      process.exit(1);
+    }
+  });
 }
 
 process.on("exit", function onExit() {
