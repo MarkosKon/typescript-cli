@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  node:
+    image: node:16.15.1-bullseye
+    user: node:node
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    environment:
+      - YARN_CACHE_FOLDER=/home/node/app/.cache/yarn
+      - PKG_CACHE_PATH=/home/node/app/.cache/pkg
+    command: tail -F anything
