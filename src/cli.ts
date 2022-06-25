@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
-import { createReadStream } from "node:fs";
-import { resolve } from "node:path";
-import { spawn } from "node:child_process";
+import fs from "fs";
+import path from "path";
+import { spawn } from "child_process";
 
 import { darkGray, green, red, reset, yellow } from "./colors.js";
 
@@ -73,8 +73,8 @@ if (args.includes("--help") || args.includes("-h")) {
 
   files.forEach((file) => {
     try {
-      const filePath = resolve(file);
-      const readSteam = createReadStream(filePath, { encoding: "utf8" });
+      const filePath = path.resolve(file);
+      const readSteam = fs.createReadStream(filePath, { encoding: "utf8" });
 
       readSteam.on("data", (data) => {
         console.log(
