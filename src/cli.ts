@@ -17,7 +17,8 @@ const args = process.argv.slice(2);
 function printHelp() {
   console.log(`Usage: ${programName} [OPTION].. [FILE]..
 
-What this program does. For example, this dummy program prints the current directory or the contents of the given files.
+What this program does. For example, this dummy program prints the current directory
+or the contents of the given files.
 
 Options:
   --pwd                      : Print the current working directory.
@@ -30,7 +31,8 @@ Examples:
   2) ${programName} -h
 
 Made by your_name (your_contact_details).
-For bugs and feature requests, please open an issue at https://github.com/your_username/your_repo/issues.
+For bugs and feature requests, please open an issue at
+https://github.com/your_username/your_repo/issues.
 `);
 }
 
