@@ -14,7 +14,7 @@
     "dist/cli.js"
   ],
   "scripts": {
-    "dev": "tsc --watch",
+    "dev": "yarn build --watch",
     "build": "node scripts/bundle.cjs",
     "build:binary": "npm-run-all --sequential clean:binary build:esbuild:pkg build:pkg",
     "build:esbuild:pkg": "yarn build --pkg",

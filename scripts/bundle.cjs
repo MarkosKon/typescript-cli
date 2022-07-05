@@ -1,10 +1,13 @@
+// @ts-check
 const path = require("path");
 const esbuild = require("esbuild");
 
 const bundleForPkg = process.argv.includes("--pkg");
+const watch = process.argv.includes("--watch");
 
 esbuild
   .build({
+    watch,
     entryPoints: ["src/cli.ts"],
     bundle: true,
     platform: "node",
