@@ -2,15 +2,33 @@
 
 import fs from "fs";
 import path from "path";
+import url from "url";
 import { spawn } from "child_process";
+
+import fetch from "node-fetch";
+import { random } from "lodash-es";
+// import lodash from "lodash"; // import a commonjs module
 
 import { darkGray, green, red, reset, yellow } from "./colors.js";
 
-const version = "0.1.0";
-// const programName = process.argv[1];
+let version = "0.1.0";
 const programName = "typescript-cli";
 const verbose =
   process.argv.includes("-V") || process.argv.includes("--verbose");
+
+// Get package.json version using import.meta.url.
+try {
+  const dirname = path.dirname(url.fileURLToPath(new URL(import.meta.url)));
+  const packageJsonPath = path.resolve(dirname, "..", "package.json");
+  // const packageJsonPath = path.resolve(__dirname, "..", "package.json");
+  const packageJson = JSON.parse(
+    fs.readFileSync(packageJsonPath, { encoding: "utf8" })
+  ) as { version: string };
+  version = packageJson.version;
+  console.log({ packageJsonPath }, { version });
+} catch (error) {
+  console.error(`${red}error${reset} (${programName}): ${String(error)}`);
+}
 
 const args = process.argv.slice(2);
 
@@ -21,7 +39,9 @@ What this program does. For example, this dummy program prints the current direc
 or the contents of the given files.
 
 Options:
-  --pwd                      : Print the current working directory.
+  -f, --fetch                : Fetch example.org and print the response.
+  -r, --random               : Display a random number between 1 and 10.
+  -p, --pwd                  : Print the current working directory.
   -V, --verbose              : Show additional information during execution.
   -v, --version              : Show the version number.
   -h, --help                 : Show this help menu.
@@ -36,27 +56,55 @@ https://github.com/your_username/your_repo/issues.
 `);
 }
 
+function handlePwdError(error: unknown) {
+  console.warn(
+    `${yellow}warning${reset} (${programName}): Encountered an error while trying to call pwd. Reverting to Node and process.cwd(). ${String(
+      error
+    )}`
+  );
+
+  console.log(process.cwd());
+  process.exit(0);
+}
+
 if (args.includes("--help") || args.includes("-h")) {
   printHelp();
   process.exit(0);
 } else if (args.includes("--version") || args.includes("-v")) {
   console.log(version);
   process.exit(0);
-} else if (args.includes("--pwd")) {
+} else if (args.includes("--random") || args.includes("-r")) {
+  console.log(
+    `${green}success${reset} (${programName}): Here is a random number between 1-10: ${random(
+      1,
+      10
+    )}.`
+  );
+} else if (args.includes("--fetch") || args.includes("-f")) {
+  fetch("https://example.org")
+    .then((response) => {
+      if (response.ok) return response;
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((response) => response.text())
+    .then((text) => {
+      console.log(`Here's your html text for https://example.org:\n${text}`);
+      return text;
+    })
+    .catch((error) => console.error(error));
+} else if (args.includes("--pwd") || args.includes("-p")) {
   try {
     const pwd = spawn("pwd");
 
     pwd.stdout.pipe(process.stdout);
-    pwd.stderr.pipe(process.stderr);
+
+    pwd.on("error", (error) => handlePwdError(error));
 
     pwd.on("exit", (code) => {
       process.exit(code !== null ? code : 0);
     });
   } catch (error) {
-    console.error(
-      `${red}error${reset} unknown (${programName}): ${String(error)}`
-    );
-    process.exit(1);
+    handlePwdError(error);
   }
 } else {
   const files = args.filter(

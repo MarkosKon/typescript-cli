@@ -4,18 +4,21 @@
   "license": "MIT",
   "private": true,
   "bin": {
-    "typescript-cli": "dist/src/cli.js"
+    "typescript-cli": "dist/cli.js"
   },
+  "type": "module",
   "engines": {
     "node": ">=12.20.0"
   },
   "files": [
-    "dist/src/**/*.js"
+    "dist/cli.js"
   ],
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
-    "build:pkg": "pkg . --out-path dist-pkg",
+    "build": "node scripts/bundle.cjs",
+    "build:binary": "npm-run-all --sequential clean:binary build:esbuild:pkg build:pkg",
+    "build:esbuild:pkg": "yarn build --pkg",
+    "build:pkg": "pkg --out-path dist-pkg --config pkgconfig.json dist-esbuild/cli.js",
     "test": "npm-run-all build test:run",
     "test:run": "node dist/test/test.js",
     "lint": "npm-run-all --parallel build lint:js lint:rest",
@@ -23,7 +26,9 @@
     "lint:rest": "prettier --check \"**/*.{json,yml,md}\"",
     "format": "npm-run-all --parallel format:js format:rest",
     "format:js": "yarn lint:js --fix",
-    "format:rest": "prettier --write \"**/*.{json,yml,md}\""
+    "format:rest": "prettier --write \"**/*.{json,yml,md}\"",
+    "clean": "rm -rf dist*",
+    "clean:binary": "rm -rf dist-pkg dist-esbuild"
   },
   "husky": {
     "hooks": {
@@ -40,11 +45,18 @@
       "prettier --write"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "node-fetch": "^3.2.6"
+  },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "esbuild": "^0.14.48",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

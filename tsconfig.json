@@ -1,14 +1,16 @@
 {
-  "include": ["./src/**/*", "**/*.ts"],
-  "exclude": ["node_modules"],
+  "include": ["./src/**/*", "**/*.ts", "*.js"],
+  "exclude": ["node_modules", "dist*", ".cache*"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ES6",
-    "module": "CommonJS",
+    "module": "ESNext",
+    "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Node",
     "noImplicitReturns": true,
+    "checkJs": true,
     // match output dir to input dir. e.g. dist/index instead of dist/src/index
     // "rootDir": "./src",
     "strict": true,
