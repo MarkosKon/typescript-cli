@@ -13,14 +13,19 @@ import { version, bin } from "../package.json";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const programName = Object.keys(bin)[0];
-let verbose = false;
-let printARandomNumber = false;
-let fetchHtml = false;
-let url = new URL("https://example.org");
-let printWorkingDirectory = false;
+
+const defaults = {
+  verbose: false,
+  printARandomNumber: false,
+  fetchHtml: false,
+  url: new URL("https://example.org"),
+  printWorkingDirectory: false,
+};
+let { verbose, printARandomNumber, fetchHtml, url, printWorkingDirectory } =
+  defaults;
 const files: string[] = [];
 
-/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier, unicorn/consistent-destructuring */
 // prettier-ignore
 function printHelp() {
   console.log(`Usage: ${programName} [OPTION].. [FILE]..
@@ -30,19 +35,19 @@ or the contents of the given files.
 
 Options:
   -f, --fetch          Fetch ${url.href} and print the response. The default
-                       is to ${fetchHtml ? "fetch" : "not fetch"} ${url.href}.
+                       is to ${defaults.fetchHtml ? "fetch" : "not fetch"} ${url.href}.
 
   -u, --url            The URL to fetch. --fetch true is implied if --url is
-                       set. The default URL is ${url.href}.
+                       set. The default URL is ${defaults.url.href}.
 
   -r, --random         Display a random number between 1 and 10. The default
-                       is to ${printARandomNumber ? "print" : "not print"} a random number.
+                       is to ${defaults.printARandomNumber ? "print" : "not print"} a random number.
 
   -p, --pwd            Print the current working directory. The default is
-                       to ${printWorkingDirectory ? "print" : "not print"} the current working directory.
+                       to ${defaults.printWorkingDirectory ? "print" : "not print"} the current working directory.
 
   -V, --verbose        Show additional information during execution. The
-                       default is ${String(verbose)}.
+                       default is ${String(defaults.verbose)}.
 
   -v, --version        Show the version number.
 
