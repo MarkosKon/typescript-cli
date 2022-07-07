@@ -12,6 +12,10 @@ esbuild
     bundle: true,
     platform: "node",
     target: "node12.20.0",
+    sourcemap: true,
+    minifyIdentifiers: true,
+    minifySyntax: true,
+    minifyWhitespace: true,
     outdir: bundleForPkg ? "dist-esbuild" : "dist",
     format: bundleForPkg ? "cjs" : "esm",
     // See https://github.com/evanw/esbuild/issues/1492#issuecomment-893144483
@@ -23,7 +27,6 @@ esbuild
           "import.meta.url": "import_meta_url",
         }
       : undefined,
-    sourcemap: true,
     external: bundleForPkg ? undefined : ["lodash", "lodash-es", "node-fetch"],
   })
   .catch(() => process.exit(1));

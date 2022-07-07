@@ -2,7 +2,6 @@
 
 import fs from "fs";
 import path from "path";
-import url from "url";
 import { spawn } from "child_process";
 
 import fetch from "node-fetch";
@@ -10,25 +9,12 @@ import { random } from "lodash-es";
 // import lodash from "lodash"; // import a commonjs module
 
 import { darkGray, green, red, reset, yellow } from "./colors.js";
+import { version, bin } from "../package.json";
 
-let version = "0.1.0";
-const programName = "typescript-cli";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+const programName = Object.keys(bin)[0];
 const verbose =
   process.argv.includes("-V") || process.argv.includes("--verbose");
-
-// Get package.json version using import.meta.url.
-try {
-  const dirname = path.dirname(url.fileURLToPath(new URL(import.meta.url)));
-  const packageJsonPath = path.resolve(dirname, "..", "package.json");
-  // const packageJsonPath = path.resolve(__dirname, "..", "package.json");
-  const packageJson = JSON.parse(
-    fs.readFileSync(packageJsonPath, { encoding: "utf8" })
-  ) as { version: string };
-  version = packageJson.version;
-  console.log({ packageJsonPath }, { version });
-} catch (error) {
-  console.error(`${red}error${reset} (${programName}): ${String(error)}`);
-}
 
 const args = process.argv.slice(2);
 
