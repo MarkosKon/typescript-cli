@@ -20,7 +20,7 @@
     "build:bundle:dependencies": "yarn build --bundle-dependencies",
     "build:pkg": "pkg --out-path dist-pkg --config pkgconfig.json --targets node16-win,node16-linux,node16-mac dist-bundle-deps/cli.js",
     "test": "npm-run-all build test:run",
-    "test:run": "node dist/test/test.js",
+    "test:run": "esbuild --platform=node --target=node16.15.1 --format=esm --bundle ./test/entrypoint.ts | node --input-type=module -",
     "lint": "npm-run-all --parallel build lint:js lint:rest",
     "lint:js": "eslint --ext=js,ts src",
     "lint:rest": "prettier --check \"**/*.{json,yml,md}\"",
