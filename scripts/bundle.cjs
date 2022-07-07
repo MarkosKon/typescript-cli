@@ -2,7 +2,9 @@
 const path = require("path");
 const esbuild = require("esbuild");
 
-const bundleForPkg = process.argv.includes("--pkg");
+const { dependencies } = require("../package.json");
+
+const bundleDependencies = process.argv.includes("--bundle-dependencies");
 const watch = process.argv.includes("--watch");
 
 esbuild
@@ -16,17 +18,17 @@ esbuild
     minifyIdentifiers: true,
     minifySyntax: true,
     minifyWhitespace: true,
-    outdir: bundleForPkg ? "dist-esbuild" : "dist",
-    format: bundleForPkg ? "cjs" : "esm",
-    // See https://github.com/evanw/esbuild/issues/1492#issuecomment-893144483
-    inject: bundleForPkg
-      ? [path.resolve(__dirname, "importMetaUrl.js")]
-      : undefined,
-    define: bundleForPkg
+
+    ...(bundleDependencies
       ? {
-          "import.meta.url": "import_meta_url",
+          outdir: "dist-bundle-deps",
+          format: "cjs",
+          // See https://github.com/evanw/esbuild/issues/1492#issuecomment-893144483
+          inject: [path.resolve(__dirname, "importMetaUrl.js")],
+          define: {
+            "import.meta.url": "import_meta_url",
+          },
         }
-      : undefined,
-    external: bundleForPkg ? undefined : ["lodash", "lodash-es", "node-fetch"],
+      : { outdir: "dist", format: "esm", external: Object.keys(dependencies) }),
   })
   .catch(() => process.exit(1));

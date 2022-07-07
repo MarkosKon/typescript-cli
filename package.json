@@ -16,9 +16,9 @@
   "scripts": {
     "dev": "yarn build --watch",
     "build": "node scripts/bundle.cjs",
-    "build:binary": "npm-run-all --sequential clean:binary build:esbuild:pkg build:pkg",
-    "build:esbuild:pkg": "yarn build --pkg",
-    "build:pkg": "pkg --out-path dist-pkg --config pkgconfig.json dist-esbuild/cli.js",
+    "build:binary": "npm-run-all --sequential clean:binary build:bundle:dependencies build:pkg",
+    "build:bundle:dependencies": "yarn build --bundle-dependencies",
+    "build:pkg": "pkg --out-path dist-pkg --config pkgconfig.json --targets node16-win,node16-linux,node16-mac dist-bundle-deps/cli.js",
     "test": "npm-run-all build test:run",
     "test:run": "node dist/test/test.js",
     "lint": "npm-run-all --parallel build lint:js lint:rest",
@@ -28,7 +28,7 @@
     "format:js": "yarn lint:js --fix",
     "format:rest": "prettier --write \"**/*.{json,yml,md}\"",
     "clean": "rm -rf dist*",
-    "clean:binary": "rm -rf dist-pkg dist-esbuild"
+    "clean:binary": "rm -rf dist-pkg dist-bundle-deps"
   },
   "husky": {
     "hooks": {
