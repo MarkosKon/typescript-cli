@@ -1,0 +1,28 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/javascript-node
+{
+  "name": "Node.js",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "foxundermoon.shell-format",
+        "mads-hartmann.bash-ide-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "timonwong.shellcheck",
+        "vscode-icons-team.vscode-icons"
+      ]
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  "postCreateCommand": "yarn install --check-files --audit",
+  "remoteUser": "node"
+}

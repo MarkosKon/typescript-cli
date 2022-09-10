@@ -5,14 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug CLI",
       "type": "node",
       "request": "launch",
-      "name": "Launch cli",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\src\\cli.ts",
-      //   "outFiles": ["${workspaceFolder}/out/*.js"],
-      "outFiles": ["${workspaceFolder}/**/*.js"],
-      "preLaunchTask": "tsc: build - tsconfig.json",
+      "program": "${workspaceFolder}/src/cli.ts",
+      "outFiles": ["${workspaceFolder}/dist/*.js"],
+      "preLaunchTask": "npm: build",
       "args": ["package.json"]
     }
   ]
